@@ -14,7 +14,7 @@ class View:
         self.ctrlr = ctrlr
 
 
-class Controller(TaskController):
+class Controller:
     def __init__(self, model):
         self.model = model
         self.model.ctrlr(self)
