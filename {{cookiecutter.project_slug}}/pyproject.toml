@@ -1,0 +1,98 @@
+[build-system]
+# Use setuptools as the build backend
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+{%- set license_classifiers = {
+    'MIT license': 'License :: OSI Approved :: MIT License',
+    'BSD license': 'License :: OSI Approved :: BSD License',
+    'ISC license': 'License :: OSI Approved :: ISC License (ISCL)',
+    'Apache Software License 2.0': 'License :: OSI Approved :: Apache Software License',
+    'GNU General Public License v3': 'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
+} %}
+
+[project]
+name = '{{ cookiecutter.project_slug }}'
+version = "{{ cookiecutter.version }}"
+description = "{{ cookiecutter.project_short_description }}"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ['{{ cookiecutter.project_slug }}']
+authors = [
+    {
+        name = "{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
+        email = "{{ cookiecutter.email }}"
+    }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "{{ license_classifiers[cookiecutter.open_source_license] }}",
+    "Operating System :: OS Independent",
+]
+
+# Core dependencies required for your library to function
+dependencies = [
+    {%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=7.0',{%- endif %}
+]
+
+test = [
+    {%- if cookiecutter.use_pytest == 'y' %}'pytest>=3',{%- endif %}
+]
+
+[project.urls]
+"Homepage" = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+"Bug Tracker" = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues"
+
+[tool.setuptools]
+# Automatically find your package in the current directory
+packages = ["key_access"]
+
+{%- if 'no' not in cookiecutter.command_line_interface|lower %}
+[project.scripts]
+{{ cookiecutter.project_slug }}='{{ cookiecutter.project_slug }}.cli:main'
+{%- endif %}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["{{ cookiecutter.project_slug }}*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+"ssis2af" = ["**/*.json", "**/*.txt"]
+
+[tool.wheel]
+universal = 1
+
+[tool.flake8]
+exclude = "docs"
+
+[tool.bumpversion]
+current_version = "0.1.0"
+commit = true
+tag = true
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+
+[[tool.bumpversion.files]]
+filename = "ssis2af/__init__.py"
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'
+
+
+[tool.black]
+line-length = 80
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+
+  | build
+  | dist
+)/
+'''
+
