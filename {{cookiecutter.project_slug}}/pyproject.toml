@@ -19,10 +19,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 keywords = ['{{ cookiecutter.project_slug }}']
 authors = [
-    {
-        name = "{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
-        email = "{{ cookiecutter.email }}"
-    }
+    { name = "{{ cookiecutter.full_name.replace('\"', '\\\"') }}", email = "{{ cookiecutter.email }}" }
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -35,17 +32,14 @@ dependencies = [
     {%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=7.0',{%- endif %}
 ]
 
+[project.optional-dependencies]
 test = [
-    {%- if cookiecutter.use_pytest == 'y' %}'pytest>=3',{%- endif %}
+    {% if cookiecutter.use_pytest == 'y' %}'pytest>=3',{%- endif %}
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
 "Bug Tracker" = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues"
-
-[tool.setuptools]
-# Automatically find your package in the current directory
-packages = ["key_access"]
 
 {%- if 'no' not in cookiecutter.command_line_interface|lower %}
 [project.scripts]
