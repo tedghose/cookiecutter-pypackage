@@ -52,7 +52,7 @@ include = ["{{ cookiecutter.project_slug }}*"]
 exclude = ["tests*"]
 
 [tool.setuptools.package-data]
-"ssis2af" = ["**/*.json", "**/*.txt"]
+"{{ cookiecutter.project_slug }}" = ["**/*.json", "**/*.txt"]
 
 [tool.wheel]
 universal = 1
